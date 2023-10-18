@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Attendees</title>
+    <style>
+        .text-center{
+            text-align: center;
+        }
+        @media print {
+            .attendee-qrcode{
+                page-break-after: always;
+            }
+            h1{
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% load qr_code %}
+    <h1>Attendees</h1>
+    {% for event_attendee in event_attendees %}  
+    <div class="attendee-qrcode text-center">
+        {% qr_from_text event_attendee.qrcode size="m" %}
+        <p>{{event_attendee.attendee.FirstName}} {{event_attendee.attendee.MiddleName}} {{event_attendee.attendee.LastName}}</p>
+    </div>
+
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Import Attendees</h2>
+    <form action="#" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="file">
+        <select name="events" id="events" placeholder="Select Event">
+            {% for event in events %}
+                <option value="{{event.id}}">{{ event.EventName }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Send</button>
+    </form>
+    
+</body>
+</html>

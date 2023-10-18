@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Attendees</title>
+
+    <script src="{% static 'html5-qrcode.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+   
+</head>
+<body>
+    <input type="hidden" id="eventId" value="{{event.id}}">
+    <h1>{{event.EventName}}</h1>
+    <div style="width: 500px" id="reader"></div>
+    <script type="text/javascript">
+        var flag = false;
+        function onScanSuccess(decodedText, decodedResult) {
+      
+            // Handle on success condition with the decoded text or result.
+            if(flag == false){
+                var eventId = document.querySelector("#eventId");
+                var csrftoken = '{{csrf_token}}';
+                flag = true;
+                console.log(decodedText);
+                let data = new FormData();
+                data.append("qrcode", decodedText)  
+                data.append("eventId", eventId.value)
+
+                    axios.post('/eventsqrapp/event/'+eventId.value+'/scan-attendees/',data,{
+                        headers: {
+                        'X-CSRFToken': csrftoken
+                        }
+                    })
+                    .then(function (response) {
+                        // handle success
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+                    .finally(function () {
+                        // always executed
+                    });
+            }
+           
+        }
+
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(onScanSuccess);
+    </script>
+</body>
+</html>
