@@ -1,0 +1,28 @@
+{% extends 'EventsQRApp/base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Event {{ event.EventName }}</h1>
+            <h3>Date Starts: </h3><span>{{ event.EventStarted|date:"M d, Y g:i A" }}</span>
+            <h3>Date Ends: </h3><span>{{ event.EventEnded|date:"M d, Y g:i A" }}</span>
+            <h2>Attendee</h2>
+            <form action="/eventsqrapp/event/{{event.id}}/generate-attendee-qrcode/" method="post">
+                {% csrf_token %}
+                <select name="attendee_id" id="">
+                    {% for attendee in attendees %}
+                      <option value="{{attendee.id}}">{{ attendee.FirstName }} {{attendee.MiddleName}} {{attendee.LastName}}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Generate QRCode</button>
+            </form>
+        </div>
+    </div>
+</div>
+   
+    {% if attendee %}
+        {% load qr_code %}
+        <h2>Generate QR Code for {{attendee.full_name}}</h2>
+        {% qr_from_text attendee.qr_code size="m" %}
+    {% endif %}
+{% endblock %}

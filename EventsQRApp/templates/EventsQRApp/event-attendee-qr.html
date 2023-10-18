@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Attendees</title>
+
     <style>
         .text-center{
             text-align: center;
@@ -17,8 +12,7 @@
             }
         }
     </style>
-</head>
-<body>
+
     {% load qr_code %}
     <h1>Attendees</h1>
     {% for event_attendee in event_attendees %}  
@@ -28,5 +22,3 @@
     </div>
 
     {% endfor %}
-</body>
-</html>

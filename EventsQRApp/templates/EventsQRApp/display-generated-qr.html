@@ -1,0 +1,5 @@
+
+    {% load qr_code %}
+      <h2>{{ event_attendee.event.EventName }}</h2>
+      <h3>Generate QR Code for {{ event_attendee.attendee.getFullName }}</h3>
+      {% qr_from_text event_attendee.qrcode size="m" %}

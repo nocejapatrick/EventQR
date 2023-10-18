@@ -1,19 +1,51 @@
+{% extends 'EventsQRApp/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scan Attendees</title>
+{% block content %}
+    <style>
+        .d-flex{
+            display: flex;
+            justify-content: space-between;
+        }
+        .list-of-attendance-container{
+            width: 900px;
+        }
+    </style>
+        <input type="hidden" id="eventId" value="{{event.id}}">
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div>
+                    <h1>{{event.EventName}}</h1>
+                    <h2>Day {{day}}</h2>
+                    <div style="width: 500px" id="reader"></div>
+                </div>
+            </div>
+            <div class="col-6">
+                <h1>List Of Attendees</h1>
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Attendance</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for event_attendee in event_attendees %}
+                      <tr>
+                        <th scope="row">{{event_attendee.attendee.getFullName}}</th>
+                        <td>{{event.EventAttendeeDay.all }}</td>
+                      </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
 
+
+ 
     <script src="{% static 'html5-qrcode.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-   
-</head>
-<body>
-    <input type="hidden" id="eventId" value="{{event.id}}">
-    <h1>{{event.EventName}}</h1>
-    <div style="width: 500px" id="reader"></div>
     <script type="text/javascript">
         var flag = false;
         function onScanSuccess(decodedText, decodedResult) {
@@ -52,5 +84,4 @@
             "reader", { fps: 10, qrbox: 250 });
         html5QrcodeScanner.render(onScanSuccess);
     </script>
-</body>
-</html>
+{% endblock %}

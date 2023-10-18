@@ -31,8 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'sslserver',
-    'django_extensions',
+    # 'django_extensions',
     'qr_code',
     'EventsQRApp.apps.EventsqrappConfig',
     'django.contrib.admin',
